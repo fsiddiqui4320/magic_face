@@ -1,0 +1,95 @@
+import json
+
+notebook = {
+ "cells": [
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "# Batch Process Images (Fearful Expression)\n",
+    "\n",
+    "This notebook runs the complete MagicFace pipeline (preprocess, retrieve_bg, and inference) on 50 images from `processed_identities` to apply a fearful expression."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": None,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "import os\n",
+    "import sys\n",
+    "import subprocess\n",
+    "\n",
+    "# Add project root to path if needed\n",
+    "PROJECT_ROOT = os.getcwd()\n",
+    "if PROJECT_ROOT not in sys.path:\n",
+    "    sys.path.append(PROJECT_ROOT)\n",
+    "\n",
+    "PYTHON_PATH = 'C:/Users/faris3/AppData/Local/miniconda3/envs/magicface/python.exe'\n",
+    "INPUT_DIR = os.path.join('test_images', 'processed_identities')\n",
+    "OUTPUT_DIR = 'edited_images_fear'\n",
+    "os.makedirs(OUTPUT_DIR, exist_ok=True)\n",
+    "\n",
+    "image_files = [f for f in os.listdir(INPUT_DIR) if f.endswith('.jpg')][:50]\n",
+    "print(f\"Found {len(image_files)} images to process.\")"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": None,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "for img_name in image_files:\n",
+    "    input_image = os.path.join(INPUT_DIR, img_name)\n",
+    "    base_name = os.path.splitext(img_name)[0]\n",
+    "    cropped_image = os.path.join('test_images', f\"{base_name}_cropped.png\")\n",
+    "    bg_image = os.path.join('test_images', f\"{base_name}_bg.png\")\n",
+    "\n",
+    "    print(f\"\\n{'='*40}\\nProcessing {img_name}...\\n{'='*40}\")\n",
+    "    \n",
+    "    # 1. Preprocess\n",
+    "    print(\"Step 1: Preprocess (Crop Face)\")\n",
+    "    cmd1 = f\"{PYTHON_PATH} utils/preprocess.py --img_path {input_image} --save_path {cropped_image}\"\n",
+    "    subprocess.run(cmd1, shell=True)\n",
+    "\n",
+    "    # 2. Retrieve Background\n",
+    "    print(\"Step 2: Retrieve Background\")\n",
+    "    cmd2 = f\"{PYTHON_PATH} utils/retrieve_bg.py --img_path {input_image} --save_path {bg_image}\"\n",
+    "    subprocess.run(cmd2, shell=True)\n",
+    "\n",
+    "    # 3. Inference (Fearful Face)\n",
+    "    # Fear AUs: AU1 (Inner Brow), AU2 (Outer Brow), AU4 (Brow Lowerer), AU5 (Upper Lid Raiser), AU20 (Lip Stretcher), AU25 (Lips Part)\n",
+    "    print(\"Step 3: Inference (Fearful)\")\n",
+    "    cmd3 = f\"{PYTHON_PATH} inference.py --img_path {cropped_image} --bg_path {bg_image} --au_test AU1+AU2+AU4+AU5+AU20+AU25 --AU_variation 5+5+5+5+5+5 --saved_path {OUTPUT_DIR}\"\n",
+    "    subprocess.run(cmd3, shell=True)\n",
+    "    \n",
+    "    print(f\"Finished processing {img_name}\\n\")\n",
+    "\n",
+    "print(\"\\nBatch processing complete!\")\n"
+   ]
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Python 3",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {"name": "ipython", "version": 3},
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.10.13"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 5
+}
+
+with open("c:/Users/faris3/MagicFace/batch_process_fear.ipynb", "w", encoding="utf-8") as f:
+    json.dump(notebook, f, indent=1)

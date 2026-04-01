@@ -1,6 +1,11 @@
 
 import os
 import argparse
+import sys
+
+# Add project root to sys.path
+PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.append(PROJECT_ROOT)
 
 import cv2
 import matplotlib.pyplot as plt
@@ -19,17 +24,17 @@ from torchvision.utils import save_image
 
 
 device = 'cuda'
-checkpoint = './checkpoints'
-app = FaceAnalysis(name='antelopev2', root=os.path.join('./',
+checkpoint = os.path.join(PROJECT_ROOT, 'checkpoints')
+app = FaceAnalysis(name='antelopev2', root=os.path.join(PROJECT_ROOT,
                                                         'third_party_files'),
                        providers=['CUDAExecutionProvider', 'CPUExecutionProvider'])
-app.prepare(ctx_id=0, det_size=(640, 640))
+app.prepare(ctx_id=0, det_size=(320, 320), det_thresh=0.4)
 
 
 n_classes = 19
 net = BiSeNet(n_classes=n_classes)
 net.cuda()
-model_pth = '79999_iter.pth'
+model_pth = os.path.join(PROJECT_ROOT, '79999_iter.pth')
 net.load_state_dict(torch.load(model_pth))
 net.eval()
 
@@ -132,7 +137,7 @@ def keep_background(im, parsing_anno, stride):
 
 
 def get_landmarks(image):
-    face_info = app.get(cv2.cvtColor(np.array(image), cv2.COLOR_RGB2BGR))
+    face_info = app.get(cv2.cvtColor(np.array(image.convert("RGB")), cv2.COLOR_RGB2BGR))
     if len(face_info) == 0:
         return 'error'
     face_info = sorted(face_info, key=lambda x: (x['bbox'][2] - x['bbox'][0]) * x['bbox'][3] - x['bbox'][1])[-1]  # only use the maximum face
@@ -162,7 +167,7 @@ def make_bg_for_one_image(args):
     ])
 
     with torch.no_grad():
-        img = Image.open(args.img_path)
+        img = Image.open(args.img_path).convert("RGB")
         image = img.resize((512, 512), Image.BILINEAR)
         # image = img
         img = to_tensor(image)

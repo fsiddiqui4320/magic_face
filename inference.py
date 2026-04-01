@@ -17,6 +17,8 @@ from mgface.pipelines_mgface.pipeline_mgface import MgPipeline as MgPipelineInfe
 from mgface.pipelines_mgface.unet_ID_2d_condition import UNetID2DConditionModel
 from mgface.pipelines_mgface.unet_deno_2d_condition import UNetDeno2DConditionModel
 
+PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
+
 # AU mapping
 ind_dict = {'AU1':0, 'AU2':1, 'AU4':2, 'AU5':3, 'AU6':4, 'AU9':5,
             'AU12':6, 'AU15':7, 'AU17':8, 'AU20':9, 'AU25':10, 'AU26':11}
@@ -143,18 +145,18 @@ def main(args):
     vae = AutoencoderKL.from_pretrained(
             args.pretrained_model_name_or_path,
             subfolder="vae",
-            cache_dir='./'
+            cache_dir=PROJECT_ROOT
         ).to(device)
     text_encoder = CLIPTextModel.from_pretrained(
             args.pretrained_model_name_or_path,
             subfolder="text_encoder",
-        cache_dir='./'
+        cache_dir=PROJECT_ROOT
         ).to(device)
 
     tokenizer = CLIPTokenizer.from_pretrained(
             args.pretrained_model_name_or_path,
             subfolder="tokenizer",
-        cache_dir='./'
+        cache_dir=PROJECT_ROOT
         )
 
     unet_ID = UNetID2DConditionModel.from_pretrained(
@@ -164,7 +166,7 @@ def main(args):
             use_safetensors=True,
             low_cpu_mem_usage=False,
             ignore_mismatched_sizes=True,
-            cache_dir='./',
+            cache_dir=PROJECT_ROOT,
         )
 
     # 
@@ -175,7 +177,7 @@ def main(args):
             use_safetensors=True,
             low_cpu_mem_usage=False,
             ignore_mismatched_sizes=True,
-        cache_dir='./',
+        cache_dir=PROJECT_ROOT,
         )
 
     unet_deno.requires_grad_(False)
@@ -237,7 +239,7 @@ def main(args):
 
     saved_path = args.saved_path
     os.makedirs(saved_path, exist_ok=True)
-    img_name = args.img_path.split('/')[-1]
+    img_name = os.path.basename(args.img_path)
 
     tor_exp = torch.from_numpy(au_prompt).unsqueeze(0)
     samples = pipeline(

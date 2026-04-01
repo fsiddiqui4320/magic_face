@@ -1,4 +1,10 @@
 import os
+import sys
+
+# Add project root to sys.path
+PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.append(PROJECT_ROOT)
+
 import argparse
 import cv2
 import numpy as np
@@ -13,10 +19,10 @@ pil2tensor = transforms.Compose([transforms.ToTensor(), transforms.Resize(512)])
 
 pil2tensor = transforms.ToTensor()
 
-app = FaceAnalysis(name='antelopev2', root=os.path.join('./',
+app = FaceAnalysis(name='antelopev2', root=os.path.join(PROJECT_ROOT,
                                                         'third_party_files'),
                        providers=['CUDAExecutionProvider', 'CPUExecutionProvider'])
-app.prepare(ctx_id=0, det_size=(640, 640))
+app.prepare(ctx_id=0, det_size=(320, 320))
 
 
 def get_bbox(dets, crop_ratio):

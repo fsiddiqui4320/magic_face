@@ -1,0 +1,16 @@
+
+# Ignore images and weights
+*.jpg
+*.png
+*.jpeg
+*.mp4
+*.pth
+*.safetensors
+*.onnx
+__pycache__/
+*.pyc
+models--*
+79999_iter.pth
+test_images/
+edited_images/
+edited_images_fear/
