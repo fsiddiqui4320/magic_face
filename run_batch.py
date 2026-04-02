@@ -60,7 +60,7 @@ CATEGORIES = {
     'submissive': os.path.join(PROJECT_ROOT, 'processed_identities', 'processed_submissive_identities'),
 }
 
-N_IMAGES = 50
+N_IMAGES = 50  # default; overridden by --n_images flag
 DEVICE   = 'cuda'
 SEED     = 424
 
@@ -135,7 +135,10 @@ def run_inference(pipeline, prompt_embeds, cropped_path, bg_path, au_vector, out
 
 # ── Main processing loop ──────────────────────────────────────────────────────
 
-def process(pipeline, prompt_embeds, expression, categories, force=False):
+def process(pipeline, prompt_embeds, expression, categories, force=False, n_images=None):
+    if n_images is not None:
+        global N_IMAGES
+        N_IMAGES = n_images
     exp_cfg   = EXPRESSIONS[expression]
     au_vector = make_au_vector(exp_cfg['aus'], exp_cfg['variations'])
 
@@ -199,12 +202,15 @@ def main():
     parser.add_argument(
         '--force', action='store_true',
         help='Reprocess images even if output already exists (use when testing new AU profiles)')
+    parser.add_argument(
+        '--n_images', type=int, default=None,
+        help='Number of images to process per category (default: 50)')
     args = parser.parse_args()
 
     pipeline, prompt_embeds = load_pipeline()
 
     for expression in args.expression:
-        process(pipeline, prompt_embeds, expression, args.categories, force=args.force)
+        process(pipeline, prompt_embeds, expression, args.categories, force=args.force, n_images=args.n_images)
 
     print("\nAll done!")
 
