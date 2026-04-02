@@ -51,7 +51,7 @@ IND_DICT = {
 # Closed-mouth expression profiles.
 # AU25 (Lips Part) and AU26 (Jaw Drop) are intentionally excluded.
 EXPRESSIONS = {
-    'angry':   {'aus': 'AU4+AU5',                'variations': '5+2'},
+    'angry':   {'aus': 'AU4+AU5',                'variations': '5+4'},
     'fearful': {'aus': 'AU1+AU2+AU4+AU5+AU20', 'variations': '5+5+5+5+5'},
 }
 
@@ -135,14 +135,16 @@ def run_inference(pipeline, prompt_embeds, cropped_path, bg_path, au_vector, out
 
 # ── Main processing loop ──────────────────────────────────────────────────────
 
-def process(pipeline, prompt_embeds, expression, categories):
+def process(pipeline, prompt_embeds, expression, categories, force=False):
     exp_cfg   = EXPRESSIONS[expression]
     au_vector = make_au_vector(exp_cfg['aus'], exp_cfg['variations'])
 
     print(f"\n{'='*60}")
     print(f"Expression : {expression.upper()}")
     print(f"AUs        : {exp_cfg['aus']}  (variations: {exp_cfg['variations']})")
+    print(f"AU vector  : {au_vector.tolist()}  (indices 0-11 = AU1,AU2,AU4,AU5,AU6,AU9,AU12,AU15,AU17,AU20,AU25,AU26)")
     print(f"Categories : {', '.join(categories)}")
+    print(f"Force      : {force}")
     print(f"{'='*60}\n")
 
     for category in categories:
@@ -164,8 +166,8 @@ def process(pipeline, prompt_embeds, expression, categories):
 
             prefix = f"  [{i:>3}/{len(image_files)}] {img_name}"
 
-            if os.path.exists(out_path):
-                print(f"{prefix}  SKIP (already done)")
+            if os.path.exists(out_path) and not force:
+                print(f"{prefix}  SKIP (already done — use --force to reprocess)")
                 continue
 
             print(f"{prefix}", end='  ', flush=True)
@@ -194,12 +196,15 @@ def main():
         '--categories', nargs='+', choices=['dominant', 'submissive'],
         default=['dominant', 'submissive'],
         help='Category/categories to process (default: both)')
+    parser.add_argument(
+        '--force', action='store_true',
+        help='Reprocess images even if output already exists (use when testing new AU profiles)')
     args = parser.parse_args()
 
     pipeline, prompt_embeds = load_pipeline()
 
     for expression in args.expression:
-        process(pipeline, prompt_embeds, expression, args.categories)
+        process(pipeline, prompt_embeds, expression, args.categories, force=args.force)
 
     print("\nAll done!")
 
