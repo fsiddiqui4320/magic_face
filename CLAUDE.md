@@ -143,7 +143,7 @@ AUs that cause problems in this model (do not use):
 
 | Expression | AUs | Variations | Notes |
 |------------|-----|------------|-------|
-| Angry | `AU4+AU5+AU25+AU12` | `5+4+-2+-2` | AU4 lowers inner brow; AU5 keeps eyes open; AU25=-2 closes lips; AU12=-2 tightens lip corners (approximates AU23). AU2 excluded entirely — causes eye distortion at any negative value tested (-1 and -2 both distort). |
+| Angry | `AU4+AU5+AU25+AU12` | `5+3+-2+-3` | AU4 lowers inner brow; AU5=3 allows slight squint (partial eye closure for anger signal, visually narrows brow); AU25=-2 closes lips; AU12=-3 stronger downward lip corner pull (more neutral/lowered mouth). AU2 excluded — causes eye distortion at any negative value tested (-1 and -2 both distort). |
 | Fearful | `AU1+AU2+AU4+AU5+AU20+AU25` | `5+5+5+5+3+-2` | Fear brow shape + wide eyes + lip stretcher (reduced); AU25=-2 closes mouth |
 
 **Mouths must stay closed.** AU25 and AU26 are always excluded.
