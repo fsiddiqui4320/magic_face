@@ -1,7 +1,7 @@
 @echo off
 echo ============================================================
 echo  MagicFace -- Angry Expression
-echo  Dominant: 100 images  |  Submissive: 50 images
+echo  Dominant: 100 images  |  Submissive: 150 images
 echo ============================================================
 echo.
 
@@ -13,8 +13,8 @@ echo [1/2] Processing dominant (100 images)...
 python run_batch.py --expression angry --categories dominant --n_images 100
 
 echo.
-echo [2/2] Processing submissive (50 images)...
-python run_batch.py --expression angry --categories submissive
+echo [2/2] Processing submissive (150 images)...
+python run_batch.py --expression angry --categories submissive --n_images 150
 
 echo.
 echo Done. Press any key to close.
