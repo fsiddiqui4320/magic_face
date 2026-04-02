@@ -13,4 +13,9 @@ models--*
 79999_iter.pth
 test_images/
 edited_images/
-edited_images_fear/
+
+# Debug/log artifacts
+*.log
+status.json
+push_error.txt
+reproduction_output*.txt
