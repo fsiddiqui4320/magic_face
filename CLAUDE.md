@@ -123,12 +123,13 @@ magic_face/
 **All expressions must keep mouths closed.** This means:
 - **Never use AU25** (Lips Part) — explicitly parts the lips
 - **Never use AU26** (Jaw Drop) — drops the jaw
+- **Never use AU5** (Upper Lid Raiser) for angry — widens eyes, reads as fear not anger
 
 ### AU Profiles
 
 | Expression | AUs | Variations | Notes |
 |------------|-----|------------|-------|
-| Angry | `AU4+AU5` | `5+5` | Brow lowerer + upper lid raiser |
+| Angry | `AU4+AU9+AU17` | `5+3+2` | Brow lowerer + nose wrinkler + chin raiser |
 | Fearful | `AU1+AU2+AU4+AU5+AU20` | `5+5+5+5+5` | Brow raise/lower + wide eyes + lip stretcher |
 
 The fearful profile intentionally omits AU25 and AU26 to maintain closed mouths.
