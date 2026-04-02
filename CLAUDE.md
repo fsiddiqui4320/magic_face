@@ -124,12 +124,14 @@ magic_face/
 - **Never use AU25** (Lips Part) — explicitly parts the lips
 - **Never use AU26** (Jaw Drop) — drops the jaw
 - **Never use AU5** (Upper Lid Raiser) for angry — widens eyes, reads as fear not anger
+- **Never use AU9** (Nose Wrinkler) — causes eye closure in this model
+- **Never use AU17** (Chin Raiser) — causes unnatural downward facial drag
 
 ### AU Profiles
 
 | Expression | AUs | Variations | Notes |
 |------------|-----|------------|-------|
-| Angry | `AU4+AU9+AU17` | `5+3+2` | Brow lowerer + nose wrinkler + chin raiser |
+| Angry | `AU4+AU15` | `5+2` | Brow lowerer + lip corner depressor |
 | Fearful | `AU1+AU2+AU4+AU5+AU20` | `5+5+5+5+5` | Brow raise/lower + wide eyes + lip stretcher |
 
 The fearful profile intentionally omits AU25 and AU26 to maintain closed mouths.

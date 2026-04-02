@@ -51,7 +51,7 @@ IND_DICT = {
 # Closed-mouth expression profiles.
 # AU25 (Lips Part) and AU26 (Jaw Drop) are intentionally excluded.
 EXPRESSIONS = {
-    'angry':   {'aus': 'AU4+AU9+AU17',          'variations': '5+3+2'},
+    'angry':   {'aus': 'AU4+AU15',               'variations': '5+2'},
     'fearful': {'aus': 'AU1+AU2+AU4+AU5+AU20', 'variations': '5+5+5+5+5'},
 }
 
