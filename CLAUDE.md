@@ -144,7 +144,7 @@ AUs that cause problems in this model (do not use):
 | Expression | AUs | Variations | Notes |
 |------------|-----|------------|-------|
 | Angry | `AU4+AU5+AU25` | `5+4+-2` | AU4 lowers brows; AU5 keeps eyes open (counteracts AU4's sadness eye-droop); AU25 at -2 closes lips (counteracts AU5's slight mouth-open side effect) |
-| Fearful | `AU1+AU2+AU4+AU5+AU20` | `5+5+5+5+5` | Brow raise/lower + wide eyes + lip stretcher |
+| Fearful | `AU1+AU2+AU4+AU5+AU20+AU25` | `5+5+5+5+3+-2` | Fear brow shape + wide eyes + lip stretcher (reduced); AU25=-2 closes mouth |
 
 **Mouths must stay closed.** AU25 and AU26 are always excluded.
 
