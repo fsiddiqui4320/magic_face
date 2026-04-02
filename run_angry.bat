@@ -1,7 +1,7 @@
 @echo off
 echo ============================================================
 echo  MagicFace -- Angry Expression
-echo  Dominant: 100 images  |  Submissive: 200 images
+echo  Dominant: 100 images  ^|  Submissive: 200 images
 echo ============================================================
 echo.
 
