@@ -56,12 +56,8 @@ EXPRESSIONS = {
 }
 
 CATEGORIES = {
-    'dominant': os.path.join(
-        PROJECT_ROOT, '..', 'face_processing',
-        'Dominant', 'ProcessedDominantFaces', 'processed_identities'),
-    'submissive': os.path.join(
-        PROJECT_ROOT, '..', 'face_processing',
-        'Submissive', 'ProcessedSubmissiveFaces', 'processed_identities'),
+    'dominant':   os.path.join(PROJECT_ROOT, 'processed_identities', 'processed_dominant_identities'),
+    'submissive': os.path.join(PROJECT_ROOT, 'processed_identities', 'processed_submissive_identities'),
 }
 
 N_IMAGES = 50

@@ -100,8 +100,8 @@ python run_batch.py --expression angry fearful --categories dominant submissive
 
 | Category | Source |
 |----------|--------|
-| Dominant | `../face_processing/Dominant/ProcessedDominantFaces/processed_identities/` |
-| Submissive | `../face_processing/Submissive/ProcessedSubmissiveFaces/processed_identities/` |
+| Dominant | `processed_identities/processed_dominant_identities/` |
+| Submissive | `processed_identities/processed_submissive_identities/` |
 
 ### Output Structure
 
