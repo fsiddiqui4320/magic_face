@@ -118,23 +118,35 @@ magic_face/
     submissive/      ← intermediate cropped + bg files
 ```
 
-### Closed-Mouth Constraint
+### Model Behavior Notes (learned from empirical testing)
 
-**All expressions must keep mouths closed.** This means:
-- **Never use AU25** (Lips Part) — explicitly parts the lips
-- **Never use AU26** (Jaw Drop) — drops the jaw
-- **Never use AU5** (Upper Lid Raiser) for angry — widens eyes, reads as fear not anger
-- **Never use AU9** (Nose Wrinkler) — causes eye closure in this model
-- **Never use AU17** (Chin Raiser) — causes unnatural downward facial drag
+The MagicFace paper only demonstrates two expressions in training/evaluation:
+- **Happiness**: AU6+AU12
+- **Sadness**: AU1+AU4+AU15
+
+This means AU4 is learned as a **sadness AU** by the model. Applying AU4 without AU5
+causes the model to generate sadness features including drooping/closed eyelids — even
+though FACS theory says AU4 should only lower the brow.
+
+**AU5 is required alongside AU4** to counteract the sadness-eye-droop artifact and keep
+eyes naturally open. The intensity of AU5 controls the balance:
+- AU5 at 5 → eyes too wide, reads as fearful
+- AU5 at 2 → eyes naturally open, reads as angry
+
+AUs that cause problems in this model (do not use):
+- **AU9** (Nose Wrinkler) — activates orbicularis oculi, fully closes eyes
+- **AU17** (Chin Raiser) — causes unnatural downward facial drag
+- **AU15** alone with AU4 — triggers full sadness prototype (closed eyes)
+- **AU25** / **AU26** — open the mouth
 
 ### AU Profiles
 
 | Expression | AUs | Variations | Notes |
 |------------|-----|------------|-------|
-| Angry | `AU4+AU15` | `5+2` | Brow lowerer + lip corner depressor |
+| Angry | `AU4+AU5` | `5+2` | Strong brow lowering; AU5 at low intensity keeps eyes open without looking fearful |
 | Fearful | `AU1+AU2+AU4+AU5+AU20` | `5+5+5+5+5` | Brow raise/lower + wide eyes + lip stretcher |
 
-The fearful profile intentionally omits AU25 and AU26 to maintain closed mouths.
+**Mouths must stay closed.** AU25 and AU26 are always excluded.
 
 ---
 
